@@ -1,4 +1,5 @@
 import React from 'react'
+import { Metadata } from 'next'
 import clsx from 'clsx'
 import { Roboto_Mono as MonoFont } from 'next/font/google'
 import './global.css'
@@ -8,7 +9,7 @@ const monoFont = MonoFont({
   variable: '--font-mono'
 })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'The Gray Lady',
   description: 'an AI chat-box',
 }
