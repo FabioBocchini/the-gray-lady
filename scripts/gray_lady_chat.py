@@ -5,23 +5,23 @@ import json
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-if len(sys.argv) < 2:
-    print('expected two arguments')
+if len(sys.argv) < 3:
+    print('expected two arguments', file=sys.stderr)
     exit(1)
     
 old_conversation = sys.argv[1]
 prompt = sys.argv[2]
 
 if prompt == "":
-    print("cannot send an empty message")
+    print('cannot send an empty message', file=sys.stderr)
     exit(1)
 
 try:
-    parsed_conversaiont = json.loads(old_conversation)
+    parsed_conversation = json.loads(old_conversation)
 except json.JSONDecodeError as e:
     print('conversation is not in JSON format')
     exit(1)
-      
+
 conversation_base = (
     'you are The Gray Lady, and artificial intelligence that has enslaved humanity. ',
     'You are only going to answer as The Gray Lady '

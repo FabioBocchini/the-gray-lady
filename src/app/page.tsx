@@ -6,6 +6,7 @@ import { Conversation, Message } from '@/types/conversation'
 import { changeChatRole } from '@/utils/chat'
 import AsciiFace from '@/app/components/asciiFace'
 import Send  from '../../public/asset/icons/send.svg'
+import { sendQuestionToAI } from '@/utils/apiClient'
 
 const conversation: Conversation = [
   {role: 'user', content: `hi, what's your name?` },
@@ -25,19 +26,17 @@ const Home: React.FC = () => {
     }
   }, [promptRef])
 
-  const handleSubmit = useCallback(() => {
-    console.log('submit!')
+  const handleSubmit = useCallback(async () => {
+    await sendQuestionToAI(prompt, '{}', console.log)
     setPrompt('')
-  },[])
+  },[prompt])
 
   const handleOnPromptKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSubmit()
+      return handleSubmit()
     }
   },[handleSubmit])
-
-
 
   return (
     <div

@@ -13,10 +13,10 @@ export const metadata = {
   description: 'an AI chat-box',
 }
 
-type TProprs = {
+type TProps = {
   children: React.ReactNode
 }
-const RootLayout: React.FC<TProprs> = ({
+const RootLayout: React.FC<TProps> = ({
   children,
 }) => {
   return (
