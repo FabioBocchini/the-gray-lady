@@ -22,7 +22,7 @@ const RootLayout: React.FC<TProps> = ({
   return (
     <html lang="en">
       <body
-        className={clsx((monoFont.className), 'bg-better-black text-better-white font-mono')}
+        className={clsx((monoFont.className), 'bg-better-black text-better-white font-mon')}
       >
         {children}
       </body>

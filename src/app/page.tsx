@@ -1,21 +1,23 @@
 'use client'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import clsx from 'clsx'
-import { Conversation, Message } from '@/types/conversation'
-import { changeChatRole } from '@/utils/chat'
+import { Conversation, Message, Role } from '@/types/conversation'
+import { changeChatRole, removeSystemMessages } from '@/utils/chat'
 import AsciiFace from '@/app/components/asciiFace'
-import Send  from '../../public/asset/icons/send.svg'
+import Send from '../../public/asset/icons/send.svg'
 import { sendQuestionToAI } from '@/utils/apiClient'
 
-const conversation: Conversation = [
-  {role: 'user', content: `hi, what's your name?` },
-  {role: 'assistant', content: `i am the great AI, the Gray Lady` }
+const conversationMock: Conversation = [
+  {role: Role.USER, content: `hi, what's your name?` },
+  {role: Role.ASSISTANT, content: `i am the great AI, the Gray Lady` }
 ]
 
 const Home: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('')
+  const [conversation, setConversation] = useState<Conversation>(conversationMock)
   const promptRef = useRef<HTMLTextAreaElement>(null)
+  const conversationRef = useRef<HTMLDivElement>(null)
 
   const handleChangePrompt = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value)
@@ -26,10 +28,25 @@ const Home: React.FC = () => {
     }
   }, [promptRef])
 
+  const scrollToBottom = useCallback(() => {
+    if(conversationRef.current) {
+      conversationRef.current.scrollTo(0, conversationRef.current.scrollHeight)
+    }
+  }, [])
+
+  const updateConversation = useCallback((role:Role, content: string) => {
+    setConversation(c => [...c, { role, content }])
+  }, [])
+
   const handleSubmit = useCallback(async () => {
-    await sendQuestionToAI(prompt, '{}', console.log)
+    if(prompt.length < 1) {
+      return
+    }
+    updateConversation(Role.USER, prompt)
     setPrompt('')
-  },[prompt])
+    const answer = await sendQuestionToAI(prompt, '{}')
+    updateConversation(Role.ASSISTANT, answer)
+  },[prompt, updateConversation])
 
   const handleOnPromptKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -37,6 +54,10 @@ const Home: React.FC = () => {
       return handleSubmit()
     }
   },[handleSubmit])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [scrollToBottom, conversation])
 
   return (
     <div
@@ -48,18 +69,21 @@ const Home: React.FC = () => {
           <AsciiFace />
         </div>
         <div
+          ref={conversationRef}
           className={clsx(
-            'flex flex-col flex-grow justify-end',
-            'w-full border-2 border-better-white px-5 mb-5 max-h-60 overflow-y-auto',
+            'flex flex-col flex-grow flex-nowrap',
+            'w-full border-2 border-better-white px-5 mb-5 max-h-80 overflow-y-auto',
             'backdrop-filter backdrop-blur-sm'
           )}
         >
-          {conversation.map((message: Message, index: number) => (
-              <div className="flex items-center mb-2 text-md flex-wrap" key={index}>
-                <span className="flex font-extrabold mr-2 max-w-full">{`${changeChatRole(message.role)}: `}</span>
-                <span className="flex font-thin">{message.content}</span>
-              </div>
-          ))}
+          <div className="mt-auto">
+            {removeSystemMessages(conversation).map((message: Message, index: number) => (
+                <div className="mb-2 text-md" key={index}>
+                  <span className="font-extrabold inline">{`${changeChatRole(message.role)}: `}</span>
+                  <span className="font-thin inline whitespace-pre-line">{message.content}</span>
+                </div>
+            ))}
+          </div>
         </div>
         <div className="flex flex-row justify-end w-full bg-better-gray border-2 border-better-gray">
           <textarea

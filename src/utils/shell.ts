@@ -21,19 +21,17 @@ export const transferChildProcessOutput = (cmd: ChildProcessWithoutNullStreams):
     cmd.on('close', code => {
       if(code === 0) {
         resolve({
-          body: output,
+          body: { data: output },
           status: HttpStatusCode.OK,
           headers: {
-            'Content-Type': 'text/plain',
             'Cache-Control': 'no-cache',
-            'Content-Encoding': 'none'
           }
         })
       } else {
         console.error('Process finished with code', code)
         console.error('[Error]', errorOutput)
         resolve({
-          body: errorOutput,
+          body: { data: errorOutput },
           status: HttpStatusCode.BAD_REQUEST
         })
       }
