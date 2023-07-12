@@ -11,19 +11,20 @@ const monoFont = MonoFont({
 
 export const metadata: Metadata = {
   title: 'The Gray Lady',
-  description: 'an AI chat-box',
+  description: 'an AI chat-box'
 }
 
 type TProps = {
   children: React.ReactNode
 }
-const RootLayout: React.FC<TProps> = ({
-  children,
-}) => {
+const RootLayout: React.FC<TProps> = ({ children }) => {
   return (
     <html lang="en">
       <body
-        className={clsx((monoFont.className), 'bg-better-black text-better-white font-mon')}
+        className={clsx(
+          monoFont.className,
+          'bg-better-black text-better-white font-mon'
+        )}
       >
         {children}
       </body>

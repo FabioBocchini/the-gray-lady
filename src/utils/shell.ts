@@ -1,8 +1,10 @@
 import { ChildProcessWithoutNullStreams } from 'child_process'
 import { HttpResponse, HttpStatusCode } from '@/types/http'
 
-export const transferChildProcessOutput = (cmd: ChildProcessWithoutNullStreams): Promise<HttpResponse> =>
-  new Promise((resolve) => {
+export const transferChildProcessOutput = (
+  cmd: ChildProcessWithoutNullStreams
+): Promise<HttpResponse> =>
+  new Promise(resolve => {
     let output = ''
     let errorOutput = ''
 
@@ -19,12 +21,12 @@ export const transferChildProcessOutput = (cmd: ChildProcessWithoutNullStreams):
     })
 
     cmd.on('close', code => {
-      if(code === 0) {
+      if (code === 0) {
         resolve({
           body: { data: output },
           status: HttpStatusCode.OK,
           headers: {
-            'Cache-Control': 'no-cache',
+            'Cache-Control': 'no-cache'
           }
         })
       } else {
@@ -36,4 +38,4 @@ export const transferChildProcessOutput = (cmd: ChildProcessWithoutNullStreams):
         })
       }
     })
-})
+  })

@@ -1,6 +1,6 @@
 export async function sendQuestionToAI(
   question: string,
-  conversation: string,
+  conversation: string
 ): Promise<string> {
   const res = await fetch(`/api/chat`, {
     method: 'POST',

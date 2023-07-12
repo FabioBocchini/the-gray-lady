@@ -24,13 +24,20 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const cmd = spawn(
     'python3',
-    [path.join(process.cwd(), 'scripts/gray_lady_chat.py'), conversation, question],
+    [
+      path.join(process.cwd(), 'scripts/gray_lady_chat.py'),
+      conversation,
+      question
+    ],
     {
       cwd: process.cwd()
-    })
+    }
+  )
 
-  const response: HttpResponse =  await transferChildProcessOutput(cmd)
+  const response: HttpResponse = await transferChildProcessOutput(cmd)
 
-  return NextResponse.json(response.body, { status: response.status, headers: response.headers })
+  return NextResponse.json(response.body, {
+    status: response.status,
+    headers: response.headers
+  })
 }
-

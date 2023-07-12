@@ -9,51 +9,58 @@ import Send from '../../public/asset/icons/send.svg'
 import { sendQuestionToAI } from '@/utils/apiClient'
 
 const conversationMock: Conversation = [
-  {role: Role.USER, content: `hi, what's your name?` },
-  {role: Role.ASSISTANT, content: `i am the great AI, the Gray Lady` }
+  { role: Role.USER, content: `hi, what's your name?` },
+  { role: Role.ASSISTANT, content: `i am the great AI, the Gray Lady` }
 ]
 
 const Home: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('')
-  const [conversation, setConversation] = useState<Conversation>(conversationMock)
+  const [conversation, setConversation] =
+    useState<Conversation>(conversationMock)
   const promptRef = useRef<HTMLTextAreaElement>(null)
   const conversationRef = useRef<HTMLDivElement>(null)
 
-  const handleChangePrompt = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setPrompt(e.target.value)
+  const handleChangePrompt = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setPrompt(e.target.value)
 
-    if(promptRef.current){
-      promptRef.current.style.height = 'auto'
-      promptRef.current.style.height = `${promptRef.current.scrollHeight}px`
-    }
-  }, [promptRef])
+      if (promptRef.current) {
+        promptRef.current.style.height = 'auto'
+        promptRef.current.style.height = `${promptRef.current.scrollHeight}px`
+      }
+    },
+    [promptRef]
+  )
 
   const scrollToBottom = useCallback(() => {
-    if(conversationRef.current) {
+    if (conversationRef.current) {
       conversationRef.current.scrollTo(0, conversationRef.current.scrollHeight)
     }
   }, [])
 
-  const updateConversation = useCallback((role:Role, content: string) => {
+  const updateConversation = useCallback((role: Role, content: string) => {
     setConversation(c => [...c, { role, content }])
   }, [])
 
   const handleSubmit = useCallback(async () => {
-    if(prompt.length < 1) {
+    if (prompt.length < 1) {
       return
     }
     updateConversation(Role.USER, prompt)
     setPrompt('')
     const answer = await sendQuestionToAI(prompt, '{}')
     updateConversation(Role.ASSISTANT, answer)
-  },[prompt, updateConversation])
+  }, [prompt, updateConversation])
 
-  const handleOnPromptKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      return handleSubmit()
-    }
-  },[handleSubmit])
+  const handleOnPromptKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        return handleSubmit()
+      }
+    },
+    [handleSubmit]
+  )
 
   useEffect(() => {
     scrollToBottom()
@@ -77,18 +84,24 @@ const Home: React.FC = () => {
           )}
         >
           <div className="mt-auto">
-            {removeSystemMessages(conversation).map((message: Message, index: number) => (
+            {removeSystemMessages(conversation).map(
+              (message: Message, index: number) => (
                 <div className="mb-2 text-md" key={index}>
-                  <span className="font-extrabold inline">{`${changeChatRole(message.role)}: `}</span>
-                  <span className="font-thin inline whitespace-pre-line">{message.content}</span>
+                  <span className="font-extrabold inline">
+                    {`${changeChatRole(message.role)}: `}
+                  </span>
+                  <span className="font-thin inline whitespace-pre-line">
+                    {message.content}
+                  </span>
                 </div>
-            ))}
+              )
+            )}
           </div>
         </div>
         <div className="flex flex-row justify-end w-full bg-better-gray border-2 border-better-gray">
           <textarea
             ref={promptRef}
-            className={ clsx(
+            className={clsx(
               'w-full bg-transparent text-better-white p-3 focus:outline-none font-extralight',
               'resize-none max-h-40 overflow-y-auto'
             )}
