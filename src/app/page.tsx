@@ -8,15 +8,10 @@ import AsciiFace from '@/app/components/asciiFace'
 import Send from '../../public/asset/icons/send.svg'
 import { sendQuestionToAI } from '@/utils/apiClient'
 
-const conversationMock: Conversation = [
-  { role: Role.USER, content: `hi, what's your name?` },
-  { role: Role.ASSISTANT, content: `i am the great AI, the Gray Lady` }
-]
-
 const Home: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('')
   const [conversation, setConversation] =
-    useState<Conversation>(conversationMock)
+    useState<Conversation>([])
   const promptRef = useRef<HTMLTextAreaElement>(null)
   const conversationRef = useRef<HTMLDivElement>(null)
 
@@ -48,9 +43,9 @@ const Home: React.FC = () => {
     }
     updateConversation(Role.USER, prompt)
     setPrompt('')
-    const answer = await sendQuestionToAI(prompt, '{}')
+    const answer = await sendQuestionToAI(prompt, conversation)
     updateConversation(Role.ASSISTANT, answer)
-  }, [prompt, updateConversation])
+  }, [conversation, prompt, updateConversation])
 
   const handleOnPromptKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

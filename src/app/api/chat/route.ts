@@ -8,6 +8,8 @@ import { HttpResponse } from '@/types/http'
 export async function POST(request: Request): Promise<NextResponse> {
   const { question, conversation } = await request.json()
 
+  console.log(conversation)
+
   if (typeof question !== 'string') {
     return NextResponse.json(
       { error: 'Content must be string' },

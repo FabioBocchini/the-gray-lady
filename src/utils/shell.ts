@@ -21,6 +21,7 @@ export const transferChildProcessOutput = (
     })
 
     cmd.on('close', code => {
+      console.log(errorOutput)
       if (code === 0) {
         resolve({
           body: { data: output },
