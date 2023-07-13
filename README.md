@@ -12,6 +12,22 @@ released).
 
 It uses python to interface with Openai API and Next.js for the webpage.
 
+## Some configuration
+
+### Change the prompt
+
+You can change the prompt to wathever you like. To do it change the `conversation_base` variable
+inside `./scripts/gray_lady_chat.py`.
+
+The chatbot answers in the same language of the prompt.
+
+### Number of messages in memory
+
+For every chat the AI remembers the last 12 messages, so 6 sent by the user and the 6 corresponding answers.
+
+The reason behind the number 12 is given by the structure of the game. If you want to change this number edit the
+variable `numberOfMessagesInConversation` in `/src/utils/apiClient.ts`
+
 ## Run locally
 
 ### Requirements
@@ -22,20 +38,23 @@ It uses python to interface with Openai API and Next.js for the webpage.
 ### Run
 
 Install python packages
+
 ```shell
 pip3 install -r requirements.txt
 ```
 
 Install React dependencies
+
 ```shell
 yarn 
 #or 
 npm i
 ```
 
-Copy the `/scritps/.env.example` file to `/scritps/.env` and populate it with your Openai API key
+Copy the `./scritps/.env.example` file to `./scritps/.env` and populate it with your Openai API key
 
 Run the development server
+
 ```shell
 yarn dev
 #or
@@ -45,6 +64,7 @@ npm run dev
 Visit the page on http://localhost:3000
 
 To build the application run
+
 ```shell
 yarn build
 #or
