@@ -12,6 +12,10 @@ released).
 
 It uses python to interface with Openai API and Next.js for the webpage.
 
+<p align="center">
+  <img src="./.github/images/graylady1.jpeg" alt="chat example"/>
+</p>
+
 ## Some configuration
 
 ### Change the prompt
