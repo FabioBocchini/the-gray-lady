@@ -18,8 +18,6 @@ export async function sendQuestion(
     { role: 'user', content: question }
   ]
 
-  console.log(messages)
-
   const result = await fetch('/api/chat', {
     method: 'POST',
     body: JSON.stringify({ messages })
