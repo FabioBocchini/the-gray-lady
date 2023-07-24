@@ -10,8 +10,6 @@ a [prompt](#prompt).
 The character is written for a tabletop role-playing game called *Ashes* by Ludovico M. Dziecielski (not yet
 released).
 
-It uses python to interface with Openai API and Next.js for the webpage.
-
 <p align="center">
   <img src="./.github/images/graylady1.jpeg" alt="chat example"/>
 </p>
@@ -20,8 +18,8 @@ It uses python to interface with Openai API and Next.js for the webpage.
 
 ### Change the prompt
 
-You can change the prompt to wathever you like. To do it change the `conversation_base` variable
-inside `./scripts/gray_lady_chat.py`.
+You can change the prompt to wathever you like. To do it change the `prompt` variable
+inside `./src/utils/prompt.ts`.
 
 The chatbot answers in the same language of the prompt.
 
@@ -29,23 +27,16 @@ The chatbot answers in the same language of the prompt.
 
 For every chat the AI remembers the last 12 messages, so 6 sent by the user and the 6 corresponding answers.
 
-The reason behind the number 12 is given by the structure of the game. If you want to change this number edit the
-variable `numberOfMessagesInConversation` in `/src/utils/apiClient.ts`
+The reason behind the number 12 is given by the structure of the game. If you want to change this number you can edit
+the .env.local file as written below
 
 ## Run locally
 
 ### Requirements
 
-- python
 - nodejs
 
 ### Run
-
-Install python packages
-
-```shell
-pip3 install -r requirements.txt
-```
 
 Install React dependencies
 
@@ -55,7 +46,9 @@ yarn
 npm i
 ```
 
-Copy the `./scritps/.env.example` file to `./scritps/.env` and populate it with your Openai API key
+Copy the `.env.local.example` file to `.env.local` and populate it with your Openai API key.
+
+Here you can also change the model used and the number of messages saved
 
 Run the development server
 

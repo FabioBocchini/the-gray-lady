@@ -4,14 +4,13 @@ import Image from 'next/image'
 import clsx from 'clsx'
 import { Conversation, Message, Role } from '@/types/conversation'
 import { changeChatRole, removeSystemMessages } from '@/utils/chat'
+import { sendQuestion } from '@/utils/api-client'
 import AsciiFace from '@/app/components/asciiFace'
 import Send from '../../public/asset/icons/send.svg'
-import { sendQuestionToAI } from '@/utils/apiClient'
 
 const Home: React.FC = () => {
   const [prompt, setPrompt] = useState<string>('')
-  const [conversation, setConversation] =
-    useState<Conversation>([])
+  const [conversation, setConversation] = useState<Conversation>([])
   const promptRef = useRef<HTMLTextAreaElement>(null)
   const conversationRef = useRef<HTMLDivElement>(null)
 
@@ -41,10 +40,18 @@ const Home: React.FC = () => {
     if (prompt.length < 1) {
       return
     }
+
     updateConversation(Role.USER, prompt)
     setPrompt('')
-    const answer = await sendQuestionToAI(prompt, conversation)
-    updateConversation(Role.ASSISTANT, answer)
+
+    try {
+      const answer = await sendQuestion(prompt, conversation)
+      updateConversation(Role.ASSISTANT, answer)
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error('[Error]', e.message)
+      }
+    }
   }, [conversation, prompt, updateConversation])
 
   const handleOnPromptKeyDown = useCallback(
