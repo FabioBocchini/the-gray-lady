@@ -7,6 +7,8 @@ import ConversationBox from '@/app/components/conversation-box'
 import TextInput from '@/app/components/text-input'
 
 const Home: React.FC = () => {
+  console.log('© 2023 FABIO BOCCHINI')
+
   const [prompt, setPrompt] = useState<string>('')
   const [conversation, setConversation] = useState<Conversation>([])
   
