@@ -36,7 +36,7 @@ const TextInput: React.FC<Props> = ({ prompt, setPrompt, handleSubmit }) => {
 
 
   return (
-    <div className='flex flex-row justify-end w-full bg-better-gray border-2 border-better-gray'>
+    <div className='flex flex-row justify-end w-full bg-better-gray border-2 border-better-gray z-50'>
     <textarea
       ref={promptRef}
       className={clsx(
