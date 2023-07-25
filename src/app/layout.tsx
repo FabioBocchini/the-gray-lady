@@ -1,9 +1,13 @@
 import React from 'react'
 import { Metadata } from 'next'
 import clsx from 'clsx'
-import { monoFont } from '@/utils/font'
+import { Roboto_Mono as MonoFont } from 'next/font/google'
 import './global.css'
 
+const monoFont = MonoFont({
+  subsets: ['latin'],
+  variable: '--font-mono'
+})
 
 export const metadata: Metadata = {
   title: 'La Dama Grigia',
