@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Conversation, Role } from '@/types/conversation'
 import { sendQuestion } from '@/utils/api-client'
 import AsciiFace from '@/app/components/ascii-face'
@@ -7,8 +7,6 @@ import ConversationBox from '@/app/components/conversation-box'
 import TextInput from '@/app/components/text-input'
 
 const Home: React.FC = () => {
-  console.log('© 2023 FABIO BOCCHINI')
-
   const [prompt, setPrompt] = useState<string>('')
   const [conversation, setConversation] = useState<Conversation>([])
   
@@ -34,6 +32,9 @@ const Home: React.FC = () => {
     }
   }, [conversation, prompt, updateConversation])
 
+  useEffect(() => {
+    console.log('© 2023 FABIO BOCCHINI')
+  }, [])
 
   return (
     <div
