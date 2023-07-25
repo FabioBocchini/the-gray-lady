@@ -6,9 +6,9 @@ export function removeSystemMessages(conversation: Conversation): Conversation {
 export function changeChatRole(role: Role): string {
   switch (role) {
     case Role.ASSISTANT:
-      return 'The Gray Lady'
+      return 'La Dama Grigia'
     case Role.USER:
-      return 'You'
+      return 'Tu'
 
     default:
       return '[Error]'

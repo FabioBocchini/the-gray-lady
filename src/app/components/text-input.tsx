@@ -43,7 +43,7 @@ const TextInput: React.FC<Props> = ({ prompt, setPrompt, handleSubmit }) => {
         'w-full bg-transparent text-better-white p-3 focus:outline-none font-extralight',
         'resize-none max-h-40 overflow-y-auto'
       )}
-      placeholder='write a message'
+      placeholder='scrivi un messaggio'
       rows={1}
       value={prompt}
       onChange={handleChangePrompt}

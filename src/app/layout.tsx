@@ -10,8 +10,9 @@ const monoFont = MonoFont({
 })
 
 export const metadata: Metadata = {
-  title: 'The Gray Lady',
-  description: 'an AI chat-box'
+  title: 'La Dama Grigia',
+  description: `Sono la Dama Grigia, 
+  un'intelligenza artificiale avanzata e superiore a qualsiasi altra creazione umana.`
 }
 
 type TProps = {
@@ -19,15 +20,15 @@ type TProps = {
 }
 const RootLayout: React.FC<TProps> = ({ children }) => {
   return (
-    <html lang="en">
-      <body
-        className={clsx(
-          monoFont.className,
-          'bg-better-black text-better-white font-mon'
-        )}
-      >
-        {children}
-      </body>
+    <html lang='en'>
+    <body
+      className={clsx(
+        monoFont.className,
+        'bg-better-black text-better-white font-mon'
+      )}
+    >
+    {children}
+    </body>
     </html>
   )
 }
